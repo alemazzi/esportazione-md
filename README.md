@@ -30,6 +30,19 @@ Interfaccia grafica basata su `kdialog` per selezionare modalità di esportazion
 
 ---
 
+## Configurazione delle cartelle
+
+Negli script sono presenti riferimenti a percorsi specifici per template e output, ad esempio:
+
+- Directory template: `$HOME/scrittura-pandoc/templates`
+- Directory di output: `$HOME/Esportazioni`
+
+Questi percorsi **possono essere modificati** direttamente negli script per adattarli alla struttura delle tue cartelle.
+
+Assicurati di aggiornare queste variabili se le tue cartelle differiscono da quelle predefinite, per evitare errori durante l’esportazione.
+
+---
+
 ## Come usare
 
 ### Da terminale
@@ -61,3 +74,4 @@ Questo progetto è sotto licenza GPL-3.0.
 Per dubbi o suggerimenti apri un issue su GitHub o contatta l'autore.
 
 ---
+Pu
