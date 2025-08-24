@@ -1,7 +1,22 @@
 text
 # Esportazione Markdown - Script Bash
 
-Questa repository contiene due script bash per esportare file Markdown (.md) in vari formati come PDF, EPUB, DOCX, ODT e HTML, con opzioni avanzate di automazione.
+<!-- TOC -->
+- [Descrizione](#descrizione)
+- [Script inclusi](#script-inclusi)
+- [Requisiti](#requisiti)
+- [Installazione](#installazione)
+- [Configurazione delle cartelle](#configurazione-delle-cartelle)
+- [Come usare](#come-usare)
+- [Esempi](#esempi)
+- [FAQ](#faq)
+- [Licenza](#licenza)
+- [Contatti](#contatti)
+<!-- TOC -->
+
+## Descrizione
+
+Questa repository contiene due script bash per esportare file Markdown (.md) in vari formati come PDF, EPUB, DOCX, ODT e HTML, con opzioni avanzate per automatizzare l'esportazione.
 
 ---
 
@@ -24,9 +39,22 @@ Interfaccia grafica basata su `kdialog` per selezionare modalità di esportazion
 ## Requisiti
 
 - `pandoc` installato e configurato nel sistema
-- Dipendenze per la compilazione PDF: `xelatex` (in genere parte di TeX Live)
+- Dependence per la compilazione PDF: `xelatex` (parte di TeX Live o simili)
 - Pacchetti necessari per interfaccia grafica: `kdialog`
 - I template personalizzati devono trovarsi nella cartella: `$HOME/scrittura-pandoc/templates`
+
+---
+
+## Installazione
+
+Ecco i comandi base per installare le dipendenze su Ubuntu/Debian:
+
+sudo apt update
+sudo apt install pandoc texlive-xetex kdialog
+
+text
+
+Per altre distribuzioni o sistemi, consulta la documentazione ufficiale.
 
 ---
 
@@ -63,6 +91,41 @@ text
 
 ---
 
+## Esempi
+
+- Esporta un solo file Markdown in PDF formato A4 con allineamento a sinistra:
+
+./export.sh a4 pdf documento.md --variable=alignment:left
+
+text
+
+- Esporta più file in formato EPUB:
+
+./export.sh a5 epub file1.md file2.md
+
+text
+
+- Avvia l’interfaccia grafica per esportazioni personalizzate:
+
+./export-gui.sh
+
+text
+
+---
+
+## FAQ
+
+**D: Cosa succede se il percorso dei template non esiste?**  
+R: Lo script darà errore. Assicurati che la cartella `$HOME/scrittura-pandoc/templates` esista e contenga i file necessari.
+
+**D: Posso cambiare la cartella di output?**  
+R: Sì, modifica la variabile corrispondente negli script per puntare a una cartella a tua scelta.
+
+**D: Perché l’export PDF richiede `xelatex`?**  
+R: `xelatex` è il motore PDF usato da `pandoc` per creare PDF di qualità con supporto avanzato di font e formattazione.
+
+---
+
 ## Licenza
 
 Questo progetto è sotto licenza GPL-3.0.
@@ -74,4 +137,3 @@ Questo progetto è sotto licenza GPL-3.0.
 Per dubbi o suggerimenti apri un issue su GitHub o contatta l'autore.
 
 ---
-Pu
