@@ -6,6 +6,9 @@ Versionamento SemVer: https://semver.org/lang/it/
 ## [Unreleased]
 - Inserisci qui le modifiche non ancora rilasciate
 
+## [v1.0.1] - 2025-08-24
+- Aggiungi qui i dettagli della release
+
 ## [v1.0.0] - 2025-08-24
 - Aggiungi qui i dettagli della release
 
