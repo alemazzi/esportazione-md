@@ -146,3 +146,6 @@ L’uso è del tutto facoltativo: non influisce sul funzionamento di *export.sh*
 ```bash
 ./update_changelog.sh
 
+<!-- Riga di prova per far comparire v1.1.0 -->
+
+
