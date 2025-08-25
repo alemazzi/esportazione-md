@@ -15,10 +15,17 @@ echo "" >> "$CHANGELOG"
 
 # Legge i tag in ordine cronologico inverso
 git tag --sort=-creatordate | while read tag; do
-    # Usa la data del commit del tag
     TAG_DATE=$(git log -1 --format=%ad --date=short "$tag")
     echo "## [$tag] - $TAG_DATE" >> "$CHANGELOG"
-    echo "- Aggiungi qui i dettagli della release" >> "$CHANGELOG"
+    echo "" >> "$CHANGELOG"
+    # Estrae i messaggi dei commit fino al tag precedente
+    PREV_TAG=$(git tag --sort=-creatordate | grep -A1 "^${tag}$" | tail -n1)
+    if [ -z "$PREV_TAG" ]; then
+        # Nessun tag precedente, prende tutti i commit fino all'inizio
+        git log --pretty=format:"- %s (%an)" "$tag" --not --all >> "$CHANGELOG"
+    else
+        git log --pretty=format:"- %s (%an)" "$PREV_TAG..$tag" >> "$CHANGELOG"
+    fi
     echo "" >> "$CHANGELOG"
 done
 
