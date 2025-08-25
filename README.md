@@ -148,3 +148,17 @@ L’uso è del tutto facoltativo: non influisce sul funzionamento di *export.sh*
 
 
 
+
+```
+
+## File Desktop per Avvio Rapido
+
+Nel file `extras/esportazione-markdown.desktop` è presente un file desktop pronto all'uso per avviare l'interfaccia grafica di esportazione Markdown.
+
+Per usarlo, copia il file desktop nella tua cartella `~/.local/share/applications/` e rendilo eseguibile con:
+
+chmod +x ~/.local/share/applications/esportazione-markdown.desktop
+
+Assicurati che il percorso in `Exec=` nel file desktop corrisponda al percorso dello script `export-gui.sh`.
+
+Questo permette un facile avvio da menu o desktop environment.

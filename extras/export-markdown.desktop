@@ -1,0 +1,19 @@
+[Desktop Entry]
+Categories=Utility;
+Comment[it_IT]=App per esportare file Markdown con interfaccia grafica
+Comment=App per esportare file Markdown con interfaccia grafica
+Exec=/home/alessandro/scrittura-pandoc/export-gui.sh
+GenericName[it_IT]=
+GenericName=
+Icon=/home/alessandro/.local/share/icons/md.png
+MimeType=
+Name[it_IT]=Export Markdown
+Name=Export Markdown
+Path=
+PrefersNonDefaultGPU=false
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=
