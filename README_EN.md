@@ -54,20 +54,14 @@ sudo apt install pandoc texlive-xetex kdialog
 
    bash
 
-   复制
-
    ```bash
    chmod +x Markdown-Export-x86_64.AppImage
    ./Markdown-Export-x86_64.AppImage
    ```
-
+   
    
 
 ## Folder Configuration
-
-表格
-
-复制
 
 | Variable      | Default                            | Purpose          |
 | :------------ | :--------------------------------- | :--------------- |
@@ -82,8 +76,6 @@ Feel free to edit these paths inside the scripts.
 
 bash
 
-复制
-
 ```bash
 ./export.sh a4 pdf file.md --variable=alignment:left
 ```
@@ -92,17 +84,11 @@ bash
 
 bash
 
-复制
-
 ```bash
 ./export-gui.sh
 ```
 
 ## Quick Examples
-
-表格
-
-复制
 
 | Task               | Command                           |
 | :----------------- | :-------------------------------- |
@@ -127,7 +113,9 @@ Copy the ready-made launcher:
 
 bash
 
-复制
+Packages
+No packages published
+Publish your first package
 
 ```bash
 cp extras/export-markdown.desktop ~/.local/share/applications/
@@ -140,12 +128,14 @@ chmod +x ~/.local/share/applications/export-markdown.desktop
 
   bash
 
-  复制
-
+  Packages
+  No packages published
+  Publish your first package
+  
   ```bash
   ./generate_changelog.sh
   ```
-
+  
   ---
   
   ### Included Templates
