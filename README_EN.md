@@ -146,7 +146,16 @@ chmod +x ~/.local/share/applications/export-markdown.desktop
   ./generate_changelog.sh
   ```
 
+  ---
   
+  ### Included Templates
+  
+  In addition to the scripts, this repository contains **custom templates** for different formats, located in the following folders:
+  
+  templates/pdf/       → editor-a4.tex, editor-a5.tex, editor-letter.tex
+  templates/odt/       → editor-a4.odt, editor-a5.odt
+  templates/docx/      → editor-a4.docx, editor-a5.docx
+  templates/epub/      → editor.css
 
 ## Compatibility
 

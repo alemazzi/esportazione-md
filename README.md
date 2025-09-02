@@ -178,6 +178,17 @@ chmod +x ~/.local/share/applications/export-markdown.desktop
 Scarica `Markdown-Export-x86_64.AppImage` dall’ultima release:
 https://github.com/alemazzi/esportazione-md/releases
 
+---
+
+### Template inclusi
+
+Oltre agli script, la repository include **template personalizzati** per i vari formati, già posizionati nelle cartelle:
+
+templates/pdf/       → editor-a4.tex, editor-a5.tex, editor-letter.tex
+templates/odt/       → editor-a4.odt, editor-a5.odt
+templates/docx/      → editor-a4.docx, editor-a5.docx
+templates/epub/      → editor.css
+
 ------
 
 ## Compatibilità
