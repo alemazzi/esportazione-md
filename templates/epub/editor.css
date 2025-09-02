@@ -1,0 +1,17 @@
+/* Stile base */
+body {
+  font-family: "DejaVu Serif", serif;
+  line-height: 1.8;
+  color: #333;
+  margin: 1em auto;
+  max-width: 800px;
+}
+
+/* Note editoriali */
+.note-editor {
+  background-color: #f8f8f8;
+  border-left: 3px solid #ccc;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  font-size: 0.9em;
+}

@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+
+% Pacchetti base
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{italian}
+\setmainfont{Garamond.ttf}[Path=/home/alessandro/scrittura-pandoc/fonts/]
+
+% Margini standard (puoi modificarli se vuoi)
+\usepackage[margin=2.5cm]{geometry}
+
+% Definizione anti errore \tightlist
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Altri pacchetti comuni
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% Inizio documento
+\begin{document}
+
+$if(title)$
+\begin{center}
+  {\LARGE \textbf{$title$}}\\[1em]
+  $if(author)$ {\large $author$} \\[1em] $endif$
+  $if(date)$ {\small $date$} $endif$
+\end{center}
+$endif$
+
+$body$
+
+\end{document}

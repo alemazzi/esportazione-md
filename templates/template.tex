@@ -1,0 +1,55 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{italian}
+
+\setmainfont[
+  Path = ./fonts/,
+  UprightFont = {EBGaramond.ttf},
+  ItalicFont = {EBGaramondItalic.ttf},
+  BoldFont = {EBGaramond.ttf},
+  BoldItalicFont = {EBGaramondItalic.ttf}
+]{EBGaramond}
+
+\setsansfont[
+  Path = ./fonts/,
+  UprightFont = {Gill Sans.otf},
+  BoldFont = {Gill Sans Bold.otf},
+  ItalicFont = {Gill Sans Italic.otf},
+  BoldItalicFont = {Gill Sans Bold Italic.otf}
+]{Gill Sans}
+
+\setmonofont{Inconsolata}
+
+\usepackage{geometry}
+\geometry{top=3cm,bottom=3cm,left=3cm,right=3cm}
+
+%\usepackage{microtype} % commentato per prova
+
+\usepackage{longtable}
+\usepackage{booktabs}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdftitle={$title$},
+    pdfauthor={$author$}
+}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\title{$title$}
+\author{$author$}
+\date{$date$}
+
+\begin{document}
+
+\maketitle
+
+$body$
+
+\end{document}
