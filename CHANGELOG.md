@@ -11,6 +11,8 @@ Versionamento SemVer: https://semver.org/lang/it/
 - Rilasciata versione v1.0.1 (Alessandro Mazzi)
 - Rilasciata versione v1.0.1 (Alessandro Mazzi)
 - Commit di prova per aggiornare changelog v1.1.0 (Alessandro Mazzi)
+## [v1.1.0] - 2025-08-24
+
 - README completo con sezione Strumenti opzionali e script per changelog (Alessandro Mazzi)
 - Aggiunti script per generare changelog, CHANGELOG.md e sezione Strumenti opzionali nel README (Alessandro Mazzi)
 ## [v1.0.0] - 2025-08-24
