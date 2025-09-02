@@ -1,6 +1,9 @@
 # Esportazione Markdown - Script Bash
 
 <!-- TOC -->
+
+🇬🇧 [English version](README_EN.md)
+
 - [Descrizione](#descrizione)
 - [Script inclusi](#script-inclusi)
 - [Requisiti](#requisiti)
