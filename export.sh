@@ -11,7 +11,7 @@ export_single() {
   shift 3
   local extra_params=("$@")
 
-  format="${format//\"/}"  # rimuove virgolette doppie nel formato
+  format="${format//\"/}"
 
   if [ ! -f "$file" ]; then
     echo "❌ File non trovato: $file" >&2
@@ -24,13 +24,20 @@ export_single() {
   local output_file="${OUTPUT_DIR}/${basename}-${paper_size}-$(date +%Y-%m-%d).${extension}"
 
   echo "🚀 Sto esportando in: $output_file"
-  echo "📝 Comando pandoc: pandoc \"$file\" -o \"$output_file\" con parametri extra: ${extra_params[*]}"
+
+  # Gestione numerazione automatica
+  local numbering="--variable=numbersections:false"  # Default: NO numerazione
+  if [[ " ${extra_params[@]} " =~ " --number-sections " ]]; then
+      numbering="--number-sections"
+  fi
 
   case "$format" in
     pdf)
       pandoc "$file" -o "$output_file" \
         --template="${TEMPLATES_DIR}/pdf/editor-${paper_size}.tex" \
-        --pdf-engine=xelatex "${extra_params[@]}"
+        --pdf-engine=xelatex \
+        $numbering \
+        "${extra_params[@]}"
       ;;
     epub)
       local css_file="${TEMPLATES_DIR}/epub/editor.css"
@@ -48,7 +55,9 @@ export_single() {
       ;;
     html)
       pandoc "$file" -o "$output_file" \
-        --standalone "${extra_params[@]}"
+        --standalone \
+        $numbering \
+        "${extra_params[@]}"
       ;;
     *)
       echo "❌ Formato non supportato: $format" >&2
@@ -70,7 +79,7 @@ export_merged() {
   shift 2
   local args=("$@")
 
-  format="${format//\"/}"  # rimuove virgolette doppie
+  format="${format//\"/}"
 
   local extra_params=()
   local files=()
@@ -82,6 +91,12 @@ export_merged() {
       files+=("$arg")
     fi
   done
+
+  # Gestione numerazione automatica
+  local numbering="--variable=numbersections:false"  # Default: NO numerazione
+  if [[ " ${extra_params[@]} " =~ " --number-sections " ]]; then
+      numbering="--number-sections"
+  fi
 
   local temp_file=$(mktemp)
 
@@ -100,7 +115,6 @@ export_merged() {
   local output_file="${OUTPUT_DIR}/manoscritto-unito-${paper_size}-$(date +%Y-%m-%d).${extension}"
 
   echo "🚀 Sto esportando unito in: $output_file"
-  echo "📝 Comando pandoc (unione): pandoc \"$temp_file\" -o \"$output_file\" con parametri extra: ${extra_params[*]}"
 
   case "$format" in
     pdf)
@@ -109,6 +123,7 @@ export_merged() {
         --pdf-engine=xelatex \
         --variable=pagenumbering:true \
         --variable=classoption:openany \
+        $numbering \
         "${extra_params[@]}"
       ;;
     epub)
@@ -126,6 +141,7 @@ export_merged() {
     html)
       pandoc "$temp_file" -o "$output_file" \
         --standalone \
+        $numbering \
         "${extra_params[@]}"
       ;;
     *)
@@ -149,11 +165,14 @@ export_merged() {
 if [ "$#" -lt 3 ]; then
   echo "Utilizzo:"
   echo " Esportazione singola:"
-  echo " $0 [a4|a5|letter] [pdf|docx|odt|epub|html] file.md [opzioni-extra]"
+  echo " $0 [a4|a5|letter] [pdf|docx|odt|epub|html] file.md [--number-sections] [opzioni-extra]"
   echo " Esportazione multipla:"
-  echo " $0 [a4|a5|letter] [pdf|docx|odt|epub|html] file1.md file2.md... [opzioni-extra]"
+  echo " $0 [a4|a5|letter] [pdf|docx|odt|epub|html] file1.md file2.md... [--number-sections] [opzioni-extra]"
   echo " Unione file:"
-  echo " $0 [a4|a5|letter] [pdf|docx|odt|epub|html] --merge file1.md file2.md... [opzioni-extra]"
+  echo " $0 [a4|a5|letter] [pdf|docx|odt|epub|html] --merge file1.md file2.md... [--number-sections] [opzioni-extra]"
+  echo ""
+  echo "Opzioni:"
+  echo "  --number-sections   Abilita numerazione automatica capitoli (default: disattivata)"
   exit 1
 fi
 
@@ -161,20 +180,24 @@ paper_size="$1"
 format="$2"
 shift 2
 
-args=()
-extra_params=()
-
-for arg in "$@"; do
-  if [[ "$arg" == --* ]]; then
-    extra_params+=("$arg")
-  else
-    args+=("$arg")
-  fi
-done
-
-if [[ "${args[0]}" == "--merge" ]]; then
-  export_merged "$format" "$paper_size" "${args[@]}" "${extra_params[@]}"
+# Verifica la presenza del flag --merge come primo argomento rimanente
+if [[ "$1" == "--merge" ]]; then
+  shift # Rimuove --merge dalla lista degli argomenti
+  # Chiama la funzione di unione con i restanti argomenti (file e opzioni extra)
+  export_merged "$format" "$paper_size" "$@"
 else
+  # Logica per l'esportazione singola o multipla
+  args=()
+  extra_params=()
+
+  for arg in "$@"; do
+    if [[ "$arg" == --* ]]; then
+      extra_params+=("$arg")
+    else
+      args+=("$arg")
+    fi
+  done
+
   for file in "${args[@]}"; do
     export_single "$file" "$format" "$paper_size" "${extra_params[@]}"
   done

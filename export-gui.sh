@@ -9,8 +9,18 @@ MODE=$(kdialog --radiolist "Modalità operativa:" \
 2 "Esporta più file separati" off \
 3 "Unisci più file in uno solo" off) || exit 0
 
-# Selezione file
-FILES=$(kdialog --getopenfilename "$HOME" "*.md" --multiple --separate-output --title "Seleziona file Markdown") || exit 0
+# --- INIZIO BLOCCO MODIFICATO ---
+
+# Selezione file: leggiamo l'output in un array per gestire correttamente nomi con spazi.
+# kdialog con --separate-output produce un file per riga.
+readarray -t FILES_ARRAY < <(kdialog --getopenfilename "$HOME" "*.md" --multiple --separate-output --title "Seleziona file Markdown")
+
+# Se l'utente preme "Annulla", l'array sarà vuoto e lo script terminerà.
+if [ ${#FILES_ARRAY[@]} -eq 0 ]; then
+    exit 0
+fi
+
+# --- FINE BLOCCO MODIFICATO ---
 
 # Formato carta
 PAPER_SIZE=$(kdialog --radiolist "Formato carta:" \
@@ -28,6 +38,16 @@ html "HTML" off) || exit 0
 
 # Rimuovo virgolette doppie dai formati selezionati
 FORMATS_SELECTED=$(echo $FORMATS_SELECTED | sed 's/"//g')
+
+# Numerazione automatica (solo per PDF e HTML)
+NUMBERING=""
+if [[ "$FORMATS_SELECTED" =~ pdf|html ]]; then
+  if kdialog --yesno "Numerare automaticamente i capitoli?\n(Solo per documenti tecnici/accademici)\n\nPer narrativa: scegli NO"; then
+    NUMBERING="--number-sections"
+  else
+    NUMBERING="--variable=numbersections:false"
+  fi
+fi
 
 # Opzioni avanzate su allineamento/sillabazione solo se formati PDF o HTML
 if [[ "$FORMATS_SELECTED" =~ pdf || "$FORMATS_SELECTED" =~ html ]]; then
@@ -51,16 +71,18 @@ EXPORT_CMD="/home/alessandro/scrittura-pandoc/export.sh"
 for FORMAT in $FORMATS_SELECTED; do
   case "$MODE" in
     1)
-      firstfile=$(echo $FILES | head -n 1)
-      $EXPORT_CMD "$PAPER_SIZE" "$FORMAT" "$firstfile" $HYPHEN "--variable=alignment:$ALIGNMENT"
+      # Usa il primo elemento dell'array
+      $EXPORT_CMD "$PAPER_SIZE" "$FORMAT" "${FILES_ARRAY[0]}" $NUMBERING $HYPHEN "--variable=alignment:$ALIGNMENT"
       ;;
     2)
-      for file in $FILES; do
-        $EXPORT_CMD "$PAPER_SIZE" "$FORMAT" "$file" $HYPHEN "--variable=alignment:$ALIGNMENT"
+      # Itera su tutti gli elementi dell'array
+      for file in "${FILES_ARRAY[@]}"; do
+        $EXPORT_CMD "$PAPER_SIZE" "$FORMAT" "$file" $NUMBERING $HYPHEN "--variable=alignment:$ALIGNMENT"
       done
       ;;
     3)
-      $EXPORT_CMD "$PAPER_SIZE" "$FORMAT" --merge $FILES $HYPHEN "--variable=alignment:$ALIGNMENT"
+      # Passa l'intero array come lista di argomenti
+      $EXPORT_CMD "$PAPER_SIZE" "$FORMAT" --merge "${FILES_ARRAY[@]}" $NUMBERING $HYPHEN "--variable=alignment:$ALIGNMENT"
       ;;
   esac
 done
