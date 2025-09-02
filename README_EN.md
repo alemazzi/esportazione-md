@@ -1,38 +1,80 @@
 # Markdown Export – Bash Scripts
 
+🇮🇹 [Italian version](README.md)
+
+- [Description](#description)
+- [Included Scripts](#included-scripts)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Folder Configuration](#folder-configuration)
+- [Usage](#usage)
+- [Quick Examples](#quick-examples)
+- [FAQ](#faq)
+- [Quick-Launch Desktop File](#quick-launch-desktop-file)
+- [Optional Tools](#optional-tools)
+- [Compatibility](#compatibility)
+- [License](#license)
+- [Contact](#contact)
+
 ## Description
-This repository provides two Bash scripts to export Markdown (`.md`) files to **PDF, EPUB, DOCX, ODT** and **HTML**, with advanced options for batch processing and GUI-driven workflows.
+
+This repository provides two Bash scripts to export Markdown (`.md`) files to **PDF, EPUB, DOCX, ODT** and **HTML**, with advanced options for batch processing and a wizard-style GUI.
 
 ## Included Scripts
-| Script          | Purpose                                                      |
-| --------------- | ------------------------------------------------------------ |
-| `export.sh`     | Command-line tool to export one or many Markdown files. Supports paper size, alignment, hyphenation, and merging. |
-| `export-gui.sh` | Graphical wizard based on `kdialog` for interactive export (select mode, formats, paper size, files). |
+
+| Script            | Purpose                                                      |
+| ----------------- | ------------------------------------------------------------ |
+| **export.sh**     | CLI tool for exporting one or many Markdown files to multiple formats, choosing paper size, alignment, hyphenation, and merging. |
+| **export-gui.sh** | Graphical wizard (kdialog) to select export mode, output formats, paper size and target files. |
 
 ## Requirements
-- **pandoc** (system-wide)
-- **xelatex** (for PDF output; part of TeX Live)
-- **kdialog** (for the GUI)
+
+- **pandoc** (system-wide)  
+- **xelatex** (TeX Live) for PDF  
+- **kdialog** (or **zenity** on non-KDE desktops)  
 - Custom templates in `$HOME/scrittura-pandoc/templates`
 
-## Installation – Ubuntu / Debian
+## Installation
+
+### Ubuntu / Debian
+
 ```bash
 sudo apt update
 sudo apt install pandoc texlive-xetex kdialog
+
+
 ```
 
-For other distros, install the equivalent packages.
+### AppImage (zero-install)
+
+1. Download the latest release
+   https://github.com/alemazzi/esportazione-md/releases
+
+2. Make it executable and run
+
+   bash
+
+   复制
+
+   ```bash
+   chmod +x Markdown-Export-x86_64.AppImage
+   ./Markdown-Export-x86_64.AppImage
+   ```
+
+   
 
 ## Folder Configuration
 
+表格
 
+复制
 
-| Variable        | Default                            | Purpose          |
-| :-------------- | :--------------------------------- | :--------------- |
-| `TEMPLATES_DIR` | `$HOME/scrittura-pandoc/templates` | Pandoc templates |
-| `OUTPUT_DIR`    | `$HOME/Esportazioni`               | Generated files  |
+| Variable      | Default                            | Purpose          |
+| :------------ | :--------------------------------- | :--------------- |
+| TEMPLATES_DIR | `$HOME/scrittura-pandoc/templates` | Pandoc templates |
+| OUTPUT_DIR    | `$HOME/Esportazioni`               | Generated files  |
 
-Edit the paths inside the scripts to match your system.
+Feel free to edit these paths inside the scripts.
 
 ## Usage
 
@@ -40,83 +82,82 @@ Edit the paths inside the scripts to match your system.
 
 bash
 
-
+复制
 
 ```bash
-# Single file → PDF A4 left-aligned
-./export.sh a4 pdf document.md --variable=alignment:left
-
-# Multiple files → EPUB A5
-./export.sh a5 epub chap1.md chap2.md
-
-# Merge all files into one PDF
-./export.sh a4 pdf --merge *.md
+./export.sh a4 pdf file.md --variable=alignment:left
 ```
 
 ### GUI
 
 bash
 
-
+复制
 
 ```bash
 ./export-gui.sh
 ```
 
-## Examples
+## Quick Examples
 
+表格
 
+复制
 
-| Task      | Command                                 |
-| :-------- | :-------------------------------------- |
-| One PDF   | `./export.sh a4 pdf novel.md`           |
-| EPUB book | `./export.sh a5 epub book/*.md --merge` |
-| Wizard    | `./export-gui.sh`                       |
+| Task               | Command                           |
+| :----------------- | :-------------------------------- |
+| Single PDF A4      | `./export.sh a4 pdf note.md`      |
+| Multi-file EPUB    | `./export.sh a5 epub chap*.md`    |
+| Merge all into PDF | `./export.sh a4 pdf --merge *.md` |
 
 ## FAQ
 
-**Q: The template folder doesn’t exist—what happens?**
-A: The script exits with an error. Create the folder or adjust the path.
+**Q: What if the template folder is missing?**
+A: The script exits with an error. Create `$HOME/scrittura-pandoc/templates` and add the required files.
 
 **Q: Can I change the output folder?**
-A: Yes—edit the `OUTPUT_DIR` variable in the script.
+A: Yes, edit the `OUTPUT_DIR` variable in the scripts.
 
-**Q: Why xelatex for PDF?**
-A: It offers superior font support and layout quality compared to the default LaTeX engine.
+**Q: Why xelatex for PDFs?**
+A: xelatex provides superior font handling and layout quality compared to the default LaTeX engine.
 
 ## Quick-Launch Desktop File
 
-Copy `extras/markdown-export.desktop` to `~/.local/share/applications/`, make it executable and update the `Exec=` path to point at your `export-gui.sh`.
+Copy the ready-made launcher:
 
 bash
 
-
+复制
 
 ```bash
-chmod +x ~/.local/share/applications/markdown-export.desktop
+cp extras/export-markdown.desktop ~/.local/share/applications/
+chmod +x ~/.local/share/applications/export-markdown.desktop
 ```
 
 ## Optional Tools
 
-`generate_changelog.sh` – automatically builds `CHANGELOG.md` from Git commits.
+- **generate_changelog.sh** – auto-generate `CHANGELOG.md` from Git commits
 
-bash
+  bash
 
+  复制
 
+  ```bash
+  ./generate_changelog.sh
+  ```
 
-```bash
-./generate_changelog.sh
-```
+  
 
 ## Compatibility
 
-Developed and tested on **Linux** (Fedora, Ubuntu, Nobara).
-Windows/macOS users can run the scripts inside WSL or similar environments.
+- **Linux 64-bit** (tested on Nobara, Fedora, Ubuntu).
+- AppImage requires `pandoc`, `xelatex`, and `kdialog`/`zenity`.
+- For Windows/macOS see [WSL](https://learn.microsoft.com/windows/wsl/) or similar.
 
 ## License
 
 GPL-3.0
 
-## Contacts
+## Contact
 
-Open an issue on GitHub or email the author for questions or suggestions.
+Open an issue on GitHub or email the author.

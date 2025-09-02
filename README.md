@@ -1,6 +1,4 @@
-# Esportazione Markdown - Script Bash
-
-<!-- TOC -->
+# Esportazione Markdown – Script Bash
 
 🇬🇧 [English version](README_EN.md)
 
@@ -14,142 +12,188 @@
 - [FAQ](#faq)
 - [File Desktop per Avvio Rapido](#file-desktop-per-avvio-rapido)
 - [Strumenti opzionali](#strumenti-opzionali)
-- [Compatibilità](#compatibilit%C3%A0)
+- [AppImage pronta all’uso](#appimage-pronta-alluso)
+- [Compatibilità](#compatibilità)
 - [Licenza](#licenza)
 - [Contatti](#contatti)
 
+---
+
 ## Descrizione
 
-Questa repository contiene due script bash per esportare file Markdown (.md) in vari formati come PDF, EPUB, DOCX, ODT e HTML, con opzioni avanzate per automatizzare l'esportazione.
+Questa repository contiene **due script Bash** per convertire file Markdown (`.md`) in **PDF, EPUB, DOCX, ODT e HTML**, con opzioni avanzate e un’interfaccia grafica semplice.
+
+---
 
 ## Script inclusi
 
-- **export.sh**  
-  Script da linea di comando per esportare uno o più file Markdown in diversi formati, con supporto per:  
-  - scelta del formato di output (pdf, epub, docx, odt, html)  
-  - selezione della dimensione carta (A4, A5, Letter)  
-  - opzioni avanzate come allineamento testo, sillabazione, unione di più file in uno solo
+| Script            | Cosa fa                                                      |
+| ----------------- | ------------------------------------------------------------ |
+| **export.sh**     | Da terminale: esporta uno o più file, scegli formato, dimensione carta, allineamento, sillabazione, unione. |
+| **export-gui.sh** | Wizard grafico (kdialog) per selezionare modalità, formati, carta e file da esportare. |
 
-- **export-gui.sh**  
-  Interfaccia grafica basata su kdialog per selezionare modalità di esportazione, formati di output, dimensione carta e file Markdown da esportare con un semplice wizard.
+---
 
 ## Requisiti
 
-- pandoc installato e configurato nel sistema  
-- dipendenze per la compilazione PDF: xelatex (parte di TeX Live o simili)  
-- pacchetti necessari per interfaccia grafica: kdialog  
-- i template personalizzati devono trovarsi nella cartella: `$HOME/scrittura-pandoc/templates`
+- **pandoc**  (installato a livello di sistema)  
+- **xelatex** (per PDF; pacchetto `texlive-xetex`)  
+- **kdialog** (per la GUI; su GNOME puoi usare `zenity`)  
+- **template personalizzati** in `~/scrittura-pandoc/templates`
+
+---
 
 ## Installazione
 
-Ecco i comandi base per installare le dipendenze su Ubuntu/Debian:
+### Ubuntu / Debian
 
 ```bash
 sudo apt update
 sudo apt install pandoc texlive-xetex kdialog
 ```
 
-Per altre distribuzioni o sistemi, consulta la documentazione ufficiale.
+### AppImage (senza installazione)
+
+1. Scarica l’ultima release:
+   https://github.com/alemazzi/esportazione-md/releases
+
+2. Rendi eseguibile e avvia:
+
+   bash
+
+   复制
+
+   ```bash
+   chmod +x Markdown-Export-x86_64.AppImage
+   ./Markdown-Export-x86_64.AppImage
+   ```
+
+   
+
+------
 
 ## Configurazione delle cartelle
 
-Negli script sono presenti riferimenti a percorsi specifici per template e output, ad esempio:
+表格
 
-- Directory template: `$HOME/scrittura-pandoc/templates`
-- Directory di output: `$HOME/Esportazioni`
+复制
 
-Questi percorsi possono essere modificati direttamente negli script per adattarli alla struttura delle tue cartelle.
-Assicurati di aggiornare queste variabili se le tue cartelle differiscono da quelle predefinite, per evitare errori durante l’esportazione.
+| Variabile       | Predefinito                    | Scopo              |
+| :-------------- | :----------------------------- | :----------------- |
+| `TEMPLATES_DIR` | `~/scrittura-pandoc/templates` | template LaTeX/CSS |
+| `OUTPUT_DIR`    | `~/Esportazioni`               | cartella di output |
+
+Modifica i percorsi negli script se necessario.
+
+------
 
 ## Come usare
 
-## Da terminale
+### Da terminale
 
-Per esportare singoli o più file usando lo script di base:
-
-```
 bash
-./export.sh a4 pdf file1.md file2.md --variable=alignment:left
+
+复制
+
+```bash
+# PDF A4, allineamento sinistra
+./export.sh a4 pdf miofile.md --variable=alignment:left
+
+# EPUB A5
+./export.sh a5 epub *.md
 ```
 
-## Con interfaccia grafica
+### Con interfaccia grafica
 
-Per lanciare lo script con wizard grafico:
-
-```
 bash
+
+复制
+
+```bash
 ./export-gui.sh
 ```
 
-## Esempi
+------
 
-- Esporta un solo file Markdown in PDF formato A4 con allineamento a sinistra:
+## Esempi rapidi
 
-  ```
-  bash
-  ./export.sh a4 pdf documento.md --variable=alignment:left
-  ```
+表格
 
-- Esporta più file in formato EPUB:
+复制
 
-  ```
-  bash
-  ./export.sh a5 epub file1.md file2.md
-  ```
+| Operazione         | Comando                           |
+| :----------------- | :-------------------------------- |
+| Singolo PDF        | `./export.sh a4 pdf tesi.md`      |
+| Unire tutti in PDF | `./export.sh a4 pdf --merge *.md` |
+| GUI guidata        | `./export-gui.sh`                 |
 
-- Avvia l’interfaccia grafica per esportazioni personalizzate:
-
-  ```
-  bash
-  ./export-gui.sh
-  ```
+------
 
 ## FAQ
 
-**D: Cosa succede se il percorso dei template non esiste?**
-R: Lo script darà errore. Assicurati che la cartella `$HOME/scrittura-pandoc/templates` esista e contenga i file necessari.
+**D: Il percorso template non esiste?**
+A: Crea la cartella `~/scrittura-pandoc/templates` e inserisci i file richiesti.
 
 **D: Posso cambiare la cartella di output?**
-R: Sì, modifica la variabile corrispondente negli script per puntare a una cartella a tua scelta.
+A: Sì, modifica la variabile `OUTPUT_DIR` negli script.
 
-**D: Perché l’export PDF richiede xelatex?**
-R: xelatex è il motore PDF usato da pandoc per creare PDF di qualità con supporto avanzato di font e formattazione.
+**D: Perché servono xelatex e kdialog?**
+A: xelatex genera PDF di qualità; kdialog fornisce la GUI.
+
+------
 
 ## File Desktop per Avvio Rapido
 
-Nel file `extras/esportazione-markdown.desktop` è presente un file desktop pronto all'uso per avviare l'interfaccia grafica di esportazione Markdown.
-Per usarlo, copia il file desktop nella tua cartella `~/.local/share/applications/` e rendilo eseguibile con:
+Copia il launcher:
 
-```
 bash
-chmod +x ~/.local/share/applications/esportazione-markdown.desktop
+
+复制
+
+```bash
+cp extras/export-markdown.desktop ~/.local/share/applications/
+chmod +x ~/.local/share/applications/export-markdown.desktop
 ```
 
-Assicurati che il percorso in `Exec=` nel file desktop corrisponda al percorso dello script `export-gui.sh`.
-Questo permette un facile avvio da menu o desktop environment.
+------
 
 ## Strumenti opzionali
 
-Nella cartella della repository è presente anche lo script `update_changelog.sh`, utile per generare in automatico un file `CHANGELOG.md` a partire dai messaggi dei commit Git.
-L’uso è del tutto facoltativo: non influisce sul funzionamento di `export.sh` ed `export-gui.sh`.
+- **generate_changelog.sh** – genera automaticamente `CHANGELOG.md` dai commit Git.
 
-## Come usarlo
+  bash
 
-```
-bash
-./update_changelog.sh
-```
+  复制
+
+  ```bash
+  ./generate_changelog.sh
+  ```
+
+  
+
+------
+
+## AppImage pronta all’uso
+
+Scarica `Markdown-Export-x86_64.AppImage` dall’ultima release:
+https://github.com/alemazzi/esportazione-md/releases
+
+------
 
 ## Compatibilità
 
-Questo progetto è stato sviluppato e testato su sistemi Linux (ad esempio Nobara, Fedora, Ubuntu).
-Gli script e i file sono destinati all’uso in ambienti Linux con shell Bash e strumenti Linux standard.
-L’uso su Windows o macOS richiede adattamenti o ambienti specifici (es. WSL su Windows).
+- **Linux 64 bit** (testato su Nobara, Fedora, Ubuntu).
+- Richiede `pandoc`, `xelatex`, `kdialog`/`zenity`.
+- Su Windows/macOS usa WSL o ambienti simili.
+
+------
 
 ## Licenza
 
-Questo progetto è sotto licenza GPL-3.0.
+GPL-3.0
+
+------
 
 ## Contatti
 
-Per dubbi o suggerimenti apri un issue su GitHub o contatta l'autore.
+Per domande o suggerimenti apri un issue su GitHub o scrivi all’autore.
